@@ -13,19 +13,34 @@ if ($conn->connect_error) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Récupérer les données du formulaire
-    $email = $_POST['signup-email'];
-    $password = $_POST['signup-password'];
-    $username = $_POST['signup-username']; 
+    $email = $_POST['email']; 
+    $password = $_POST['password'];
 
-    // Insérer les données dans la base de données
-    $sql = "INSERT INTO user (username, email, password) VALUES ('$username', '$email', '$password')";
-    if ($conn->query($sql) === TRUE) {
-        $_SESSION['inscription_reussie'] = true;
-        header("Location: login.php");
-        exit(); 
+    $stmt = $conn->prepare("SELECT * FROM user WHERE email = ?");
+
+    // Vérifier si la préparation de la requête a réussi
+    if ($stmt) {
+        $stmt->bind_param("s", $email); 
+        $stmt->execute(); // Exécution de la requête
+        $result = $stmt->get_result(); // Obtention du résultat
+        
+        if ($result->num_rows > 0) {
+            $user = $result->fetch_assoc();
+            if ($user['password'] == $password) {
+                // Stocker le nom d'utilisateur dans une variable de session
+                header("Location: home.php");
+                exit();
+            } else {
+                echo "Mot de passe incorrect!";
+            }
+        } else {
+            echo "Cette adresse mail n'existe pas, veuillez vous enregistrer dans SIGN UP";
+        }
+        
+        $stmt->close(); // Fermeture de la requête préparée
     } else {
-        echo "Erreur lors de l'inscription: " . $conn->error;
+        // Gestion de l'erreur si la préparation de la requête a échoué
+        echo "Erreur lors de la préparation de la requête : " . $conn->error;
     }
 }
 
@@ -44,21 +59,21 @@ $conn->close();
 <body>
 <section class="forms-section">
   <div class="forms">
-    <div class="form-wrapper">
-      <button type="button" class="switcher switcher-login" onclick="redirectToLogin()">
+    <div class="form-wrapper is-active">
+      <button type="button" class="switcher switcher-login">
         Login
         <span class="underline"></span>
       </button>
-      <form class="form form-login" action="login.php" method="post">
+      <form class="form form-login" method="POST" action="">
         <fieldset>
           <legend>Please, enter your email and password for login.</legend>
           <div class="input-block">
-            <label>Email</label>
-            <input id="login-email" type="email" required>
+            <label>Email</label> 
+            <input name="email" id="login-email" type="email" required> <!-- Changement ici pour id="login-email" -->
           </div>
           <div class="input-block">
             <label>Password</label>
-            <input id="login-password" type="password" required>
+            <input name="password" id="login-password" type="password" required>
           </div>
         </fieldset>
         <button type="submit" class="btn">
@@ -66,29 +81,25 @@ $conn->close();
         </button>
       </form>
     </div>
-    <div class="form-wrapper is-active">
+    <div class="form-wrapper">
       <button type="button" class="switcher switcher-signup" onclick="redirectToRegister()">
         Sign Up
         <span class="underline"></span>
       </button>
-      <form class="form form-signup" action="register.php" method="post">
+      <form class="form form-signup">
         <fieldset>
           <legend>Please, enter your email, password and password confirmation for sign up.</legend>
           <div class="input-block">
-            <label>Email</label>
-            <input name="signup-email" id="signup-email" type="email" required>
+            <label>E-mail</label>
+            <input id="signup-email" type="email" required>
           </div>
           <div class="input-block">
             <label>Password</label>
-            <input name="signup-password" id="signup-password" type="password" required>
+            <input id="signup-password" type="password" required>
           </div>
           <div class="input-block">
             <label for="signup-password-confirm">Confirm password</label>
-            <input name="signup-password-confirm" id="signup-password-confirm" type="password" required>
-          </div>
-          <div class="input-block">
-            <label>Username</label> <!-- Ajout du champ username -->
-            <input name="signup-username" id="signup-username" type="text" required>
+            <input id="signup-password-confirm" type="password" required>
           </div>
         </fieldset>
         <button type="submit" class="btn">
@@ -100,10 +111,6 @@ $conn->close();
 </section>
 
 <script>
-  function redirectToLogin() {
-    window.location.href = "login.php";
-  }
-
   function redirectToRegister() {
     window.location.href = "register.php";
   }
