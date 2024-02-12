@@ -4,7 +4,7 @@ session_start();
 include_once 'config.php';
 
 if (isset($_SESSION['email'])) {
-    //variable permettant de recuperer le mail en lien avec le user
+    // Récupérer l'e-mail associé à l'utilisateur connecté
     $email = $_SESSION['email'];
     
     // Préparer la requête SQL pour récupérer le nom d'utilisateur associé à l'adresse e-mail
@@ -19,7 +19,6 @@ if (isset($_SESSION['email'])) {
         $stmt->close();
     }
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -48,7 +47,8 @@ if (isset($_SESSION['email'])) {
 
             <?php
             if (isset($username)) {
-                echo '<li><a class="username" href="profil.php">'.$username.'</a></li>';
+                // Modifiez le lien pour pointer vers profil.php avec le nom d'utilisateur en tant que paramètre
+                echo '<li><a class="username" href="profil.php?username='.$username.'">'.$username.'</a></li>';
             } else {
                 echo '<li><a class="login-button" href="login.php">Login</a></li>';
             }
