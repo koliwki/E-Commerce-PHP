@@ -127,8 +127,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                 <input type="text" name="country" value="<?php echo $country; ?>">
                                             </div>
                                         </div>
-                                        <button type="submit">Valider</button>
-                                    </form>
+                                        <div class="button-container">
+                                            <button type="submit" class="submit-button">Valider</button>
+                                        </div>                                    </form>
                                 </div>
                             </div>
                         </div>

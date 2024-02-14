@@ -1,16 +1,7 @@
 <?php
 session_start(); // Démarre la session PHP
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$database = "e-commerce";
-
-$conn = new mysqli($servername, $username, $password, $database);
-
-if ($conn->connect_error) {
-    die("La connexion à la base de données a échoué : " . $conn->connect_error);
-}
+include_once 'config.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email']; 
@@ -27,8 +18,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($result->num_rows > 0) {
             $user = $result->fetch_assoc();
             if ($user['password'] == $password) {
+              if ($user['password'] == $password) {
+                $_SESSION['email'] = $email; // Stockez l'e-mail de l'utilisateur dans la session
                 header("Location: home.php");
                 exit();
+            }
+            
             } else {
                 echo "Mot de passe incorrect!";
             }
