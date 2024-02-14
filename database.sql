@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : mar. 14 nov. 2023 à 16:03
--- Version du serveur : 10.4.28-MariaDB
--- Version de PHP : 8.2.4
+-- Généré le : mer. 14 fév. 2024 à 12:16
+-- Version du serveur : 10.4.32-MariaDB
+-- Version de PHP : 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `mydatabase`
+-- Base de données : `e-commerce`
 --
 
 -- --------------------------------------------------------
@@ -36,12 +36,6 @@ CREATE TABLE `address` (
   `postal_code` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Déchargement des données de la table `address`
---
-
-INSERT INTO `address` (`address_id`, `user_id`, `street_address`, `city`, `state`, `postal_code`) VALUES();
-
 -- --------------------------------------------------------
 
 --
@@ -55,12 +49,6 @@ CREATE TABLE `cart` (
   `quantity` int(11) NOT NULL,
   `added_date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Déchargement des données de la table `cart`
---
-
-INSERT INTO `cart` (`cart_id`, `user_id`, `product_id`, `quantity`, `added_date`) VALUES();
 
 -- --------------------------------------------------------
 
@@ -78,12 +66,6 @@ CREATE TABLE `command` (
   `status` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Déchargement des données de la table `command`
---
-
-INSERT INTO `command` (`command_id`, `user_id`, `product_id`, `quantity`, `order_date`, `address_delivery`, `status`) VALUES();
-
 -- --------------------------------------------------------
 
 --
@@ -99,12 +81,6 @@ CREATE TABLE `invoices` (
   `status_payment` varchar(255) NOT NULL,
   `payment_method` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Déchargement des données de la table `invoices`
---
-
-INSERT INTO `invoices` (`invoice_id`, `user_id`, `command_id`, `invoice_date`, `total_amount`, `status_payment`, `payment_method`) VALUES();
 
 -- --------------------------------------------------------
 
@@ -124,7 +100,8 @@ CREATE TABLE `product` (
 -- Déchargement des données de la table `product`
 --
 
-INSERT INTO `product` (`product_id`, `product_name`, `description`, `price`, `category`) VALUES();
+INSERT INTO `product` (`product_id`, `product_name`, `description`, `price`, `category`) VALUES
+
 
 -- --------------------------------------------------------
 
@@ -134,6 +111,7 @@ INSERT INTO `product` (`product_id`, `product_name`, `description`, `price`, `ca
 
 CREATE TABLE `user` (
   `user_id` int(11) NOT NULL,
+  `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `firstname` varchar(255) NOT NULL,
@@ -146,8 +124,8 @@ CREATE TABLE `user` (
 -- Déchargement des données de la table `user`
 --
 
-INSERT INTO `user` (`user_id`, `password`, `email`, `firstname`, `lastname`, `country`, `phone_number`) VALUES
-()
+INSERT INTO `user` (`user_id`, `username`, `password`, `email`, `firstname`, `lastname`, `country`, `phone_number`) VALUES
+
 
 --
 -- Index pour les tables déchargées
@@ -204,7 +182,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT pour la table `address`
 --
 ALTER TABLE `address`
-  MODIFY `address_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=145;
+  MODIFY `address_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=147;
 
 --
 -- AUTO_INCREMENT pour la table `cart`
@@ -228,13 +206,13 @@ ALTER TABLE `invoices`
 -- AUTO_INCREMENT pour la table `product`
 --
 ALTER TABLE `product`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=176;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=177;
 
 --
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=210;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=229;
 
 --
 -- Contraintes pour les tables déchargées
