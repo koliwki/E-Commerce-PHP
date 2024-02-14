@@ -47,7 +47,6 @@ if (isset($_SESSION['email'])) {
 
             <?php
             if (isset($username)) {
-                // Modifiez le lien pour pointer vers profil.php avec le nom d'utilisateur en tant que paramètre
                 echo '<li><a class="username" href="profil.php?username='.$username.'">'.$username.'</a></li>';
             } else {
                 echo '<li><a class="login-button" href="login.php">Login</a></li>';

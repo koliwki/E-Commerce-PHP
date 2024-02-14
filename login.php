@@ -27,7 +27,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($result->num_rows > 0) {
             $user = $result->fetch_assoc();
             if ($user['password'] == $password) {
-                // Stocker le nom d'utilisateur dans une variable de session
                 header("Location: home.php");
                 exit();
             } else {
