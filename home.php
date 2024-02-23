@@ -40,8 +40,7 @@ if (isset($_SESSION['email'])) {
         </div>
         <ul class="nav-links">
             <li><a href="">Home</a></li>
-            <li><a href="">Cart</a></li>
-            <li><a href="">Profil</a></li>
+            <li><a href="cart.php">Panier</a></li>
             <li><a href="">Products</a></li>
             <li><a href="">Contact Us</a></li>
 
