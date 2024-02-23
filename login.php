@@ -9,21 +9,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $stmt = $conn->prepare("SELECT * FROM user WHERE email = ?");
 
-    // Vérifier si la préparation de la requête a réussi
     if ($stmt) {
         $stmt->bind_param("s", $email); 
-        $stmt->execute(); // Exécution de la requête
-        $result = $stmt->get_result(); // Obtention du résultat
+        $stmt->execute(); 
+        $result = $stmt->get_result(); 
         
         if ($result->num_rows > 0) {
             $user = $result->fetch_assoc();
             if ($user['password'] == $password) {
-              if ($user['password'] == $password) {
-                $_SESSION['email'] = $email; // Stockez l'e-mail de l'utilisateur dans la session
-                header("Location: home.php");
-                exit();
-            }
-            
+                if ($user['username'] == "admin") {
+                    $_SESSION['admin_email'] = $email; // Stocke l'e-mail de l'admin dans la session
+                    header("Location: admin_dashboard.php"); // Redirige vers le tableau de bord admin
+                    exit();
+                } else {
+                    $_SESSION['email'] = $email; // Stocke l'e-mail de l'utilisateur dans la session
+                    header("Location: home.php"); // Redirige vers la page d'accueil
+                    exit();
+                }
             } else {
                 echo "Mot de passe incorrect!";
             }

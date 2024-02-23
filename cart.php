@@ -22,46 +22,38 @@ if (isset($_GET['remove_from_cart'])) {
 }
 ?>
 <link rel="stylesheet" href="Front/css/cart.css"/>
-<section class="vh-100" style="background-color: #fdccbc;">
-  <div class="container h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col">
-        <p><span class="h2">Panier </span><span class="h4"></span></p>
-
-        <!-- Conteneur du panier avec les informations des commandes -->
-        <div class="cart-container mb-4">
-          <!-- Commande 1 -->
-          <div class="cart-item card mb-3">
-            <div class="card-body p-4">
-              <div class="row align-items-center">
-                <div class="col-md-2">
+<body>
+    <div class="container">
+        <h1 class="title">Panier d'achat</h1>
+        <div class="cart-items">
+            <!-- Exemple de contenu du panier -->
+            <div class="cart-item">
+                <div class="item-details">
+                    <h3>Produit 1</h3>
+                    <p>Description du produit 1</p>
                 </div>
-                <div class="col-md-2 d-flex justify-content-center">
-                  <div>
+                <div class="item-actions">
+                    <p>Prix : $10</p>
+                    <button class="remove-btn">Supprimer</button>
                 </div>
-              </div>
             </div>
-          </div>
-          <!-- Fin de la commande 1 -->
-          
-          <!-- Vous pouvez ajouter ici d'autres commandes si nécessaire -->
+            <div class="cart-item">
+                <div class="item-details">
+                    <h3>Produit 2</h3>
+                    <p>Description du produit 2</p>
+                </div>
+                <div class="item-actions">
+                    <p>Prix : $15</p>
+                    <button class="remove-btn">Supprimer</button>
+                </div>
+            </div>
         </div>
-        <!-- Fin du conteneur du panier -->
-
-        <!-- Boutons -->
-        <div class="d-flex justify-content-end mb-4">
-          <!-- Rediriger vers home.php lors du clic -->
-          <a href="home.php" class="btn btn-light btn-lg me-2">Continue shopping</a>
-          <!-- Bouton pour le moyen de paiement -->
-          <a href="paiment.php" class="btn btn-primary btn-lg me-2">Proceed to Payment</a>
-          <!-- Vérification de la session utilisateur pour afficher ou masquer le bouton de connexion -->
-          <?php if (!isset($_SESSION['email'])) { ?>
-            <a href="login.php" class="btn btn-primary btn-lg">Login to Checkout</a>
-          <?php } ?>
+        <div class="cart-total">
+            <h2>Total : $25</h2>
         </div>
-        <!-- Fin des boutons -->
-
-      </div>
+        <div class="buttons">
+            <a href="home.php" class="continue-shopping-btn">Continuer vos achats</a>
+            <a href="paiment.php" class="proceed-to-payment-btn">Procéder au paiement</a>
+        </div>
     </div>
-  </div>
-</section>
+</body>
