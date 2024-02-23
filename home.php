@@ -34,62 +34,6 @@ $products = array(
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="Front/css/home.css" />
-    <style>
-        .product-cards {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            align-items: flex-start;
-            margin-top: 20px;
-            margin-bottom: 50px;
-        }
-
-
-        .product-card {
-            margin: 10px;
-            padding: 10px;
-            border: 1px solid #141313;
-            border-radius: 5px;
-            width: 250px;
-        }
-
-        .product-card img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 5px;
-        }
-
-        .product-info {
-            text-align: center;
-        }
-
-        .product-info h3 {
-            margin-top: 100px;
-            margin-bottom: 5px;
-        }
-
-        .product-info p {
-            margin-bottom: 10px;
-        }
-
-        .product-info .price {
-            font-weight: bold;
-            color: #007bff;
-        }
-
-        .product-info button {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .product-info button:hover {
-            background-color: #0056b3;
-        }
-    </style>
 
 </head>
 
