@@ -25,6 +25,7 @@ $products = array(
     array("name" => "Product 2", "description" => "Description du produit 2", "price" => 19.99, "image" => "path/to/product2/image.jpg"),
     // Ajoutez plus de produits ici si nécessaire
 );
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -49,11 +50,11 @@ $products = array(
             <div class="line3"></div>
         </div>
         <ul class="nav-links">
-            <li><a href="">Home</a></li>
-            <li><a href="">Cart</a></li>
+            <li><a href="home.php">Home</a></li>
+            <li><a href="cart.php">Cart</a></li>
             <li><a href="">Profil</a></li>
-            <li><a href="">Products</a></li>
-            <li><a href="">Contact Us</a></li>
+            <li><a href="product.php">Products</a></li>
+            <li><a href="contact.php">Contact Us</a></li>
 
             <?php
             if (isset($username)) {
@@ -68,20 +69,49 @@ $products = array(
 
     <div class="product-cards">
         <?php
-        // Parcourir les produits et générer les cartes de produits
-        foreach ($products as $product) {
-            echo '<div class="product-card">';
-            echo '<img src="' . $product['image'] . '" alt="' . $product['name'] . '">';
-            echo '<div class="product-info">';
-            echo '<h3>' . $product['name'] . '</h3>';
-            echo '<p>' . $product['description'] . '</p>';
-            echo '<span class="price">$' . $product['price'] . '</span>';
-            echo '<button>Ajouter au panier</button>';
+        // // Parcourir les produits et générer les cartes de produits
+        // foreach ($products as $product) {
+        //     echo '<div class="product-card">';
+        //     echo '<img src="' . $product['image'] . '" alt="' . $product['name'] . '">';
+        //     echo '<div class="product-info">';
+        //     echo '<h3>' . $product['name'] . '</h3>';
+        //     echo '<p>' . $product['description'] . '</p>';
+        //     echo '<span class="price">$' . $product['price'] . '</span>';
+        //     echo '<button>Ajouter au panier</button>';
+        //     echo '</div>';
+        //     echo '</div>';
+        // }
+
+        $sql = "SELECT * FROM product";
+        $result = $conn->query($sql);
+
+        // Vérifier si des produits ont été trouvés
+        if ($result->num_rows > 0) {
+            // Afficher le début de la section HTML pour les produits
+            echo '<div class="product-cards">';
+    
+            // Parcourir les résultats et afficher chaque produit
+            while($row = $result->fetch_assoc()) {
+                echo '<div class="product-card">';
+                echo '<img src="' . $row['product_image'] . '" alt="' . $row['product_name'] . '">';
+                echo '<div class="product-info">';
+                echo '<h3>' . $row['product_name'] . '</h3>';
+                echo '<p>' . $row['description'] . '</p>';
+                echo '<span class="price">$' . $row['price'] . '</span>';
+                echo '<button>Ajouter au panier</button>';
+                echo '</div>';
+                echo '</div>';
+            }
+            // Afficher la fin de la section HTML pour les produits
             echo '</div>';
-            echo '</div>';
+        } else {
+            // Afficher un message si aucun produit n'est trouvé
+            echo "Aucun produit n'a été trouvé.";
         }
+
         ?>
     </div>
+    
 
     <script>
         const hamburger = document.querySelector(".hamburger");

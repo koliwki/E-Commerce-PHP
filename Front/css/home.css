@@ -1,7 +1,7 @@
 *{
     margin: 0;
     padding: 0;
-    color: #f2f5f7;
+    color: #fdfdfd;
     font-family: sans-serif;
     letter-spacing: 1px;
     font-weight: 300;
@@ -226,3 +226,8 @@
     transform: rotate(45deg) translate(-5px,-6px);
  }
  
+ .product-info h3,
+ .product-info p,
+ .product-info .price {
+     color: black;
+ }
