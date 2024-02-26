@@ -26,6 +26,7 @@ SET time_zone = "+00:00";
 --
 -- Structure de la table `address`
 --
+DROP TABLE IF EXISTS `address`;
 
 CREATE TABLE `address` (
   `address_id` int(11) NOT NULL,
@@ -41,6 +42,7 @@ CREATE TABLE `address` (
 --
 -- Structure de la table `cart`
 --
+DROP TABLE IF EXISTS `cart`;
 
 CREATE TABLE `cart` (
   `cart_id` int(11) NOT NULL,
@@ -62,6 +64,7 @@ INSERT INTO `cart` (`cart_id`, `user_id`, `product_id`, `quantity`, `added_date`
 --
 -- Structure de la table `command`
 --
+DROP TABLE IF EXISTS `command`;
 
 CREATE TABLE `command` (
   `command_id` int(11) NOT NULL,
@@ -78,6 +81,7 @@ CREATE TABLE `command` (
 --
 -- Structure de la table `invoices`
 --
+DROP TABLE IF EXISTS `invoices`;
 
 CREATE TABLE `invoices` (
   `invoice_id` int(11) NOT NULL,
@@ -94,6 +98,7 @@ CREATE TABLE `invoices` (
 --
 -- Structure de la table `product`
 --
+DROP TABLE IF EXISTS `product`;
 
 CREATE TABLE `product` (
   `product_id` int(11) NOT NULL,
@@ -119,6 +124,7 @@ INSERT INTO `product` (`product_id`, `product_name`, `description`, `price`, `ca
 --
 -- Structure de la table `user`
 --
+DROP TABLE IF EXISTS `user`;
 
 CREATE TABLE `user` (
   `username` varchar(255) NOT NULL,
