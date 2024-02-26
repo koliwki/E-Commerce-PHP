@@ -84,17 +84,14 @@
 	<script>
 		$(document).ready(function () {
 			$('#payment-form').submit(function (e) {
-				e.preventDefault(); // Prevent form submission
+				e.preventDefault(); 
 
-				// Perform form validation here
-				var isValid = true; // Implement your validation logic
+				var isValid = true; 
 
 				if (isValid) {
-					// Redirect to home.php
 					window.location.href = 'home.php';
 
-					// Show payment success notification
-					alert('Payment successful! Thank you for your trust.');
+					alert('paiement reussi! Merci de votre confiance.');
 				}
 			});
 		});

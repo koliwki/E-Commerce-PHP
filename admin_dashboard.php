@@ -88,7 +88,7 @@ if(isset($_POST['delete_user'])) {
     displayUsers($conn);
     ?>
 
-    <p><a href="add_product.php">Add New Product</a></p>
+    <p><a href="product.php">Add New Product</a></p>
     <p><a href="register.php">Add New User</a></p>
 </body>
 </html>

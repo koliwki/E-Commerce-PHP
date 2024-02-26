@@ -31,7 +31,6 @@ if (isset($_GET['id'])) {
             $email = $_SESSION['email']; // Obtenez l'e-mail de l'utilisateur à partir de la session
             $comment_content = htmlspecialchars($_POST['comment_content']); // Prévenir les attaques XSS
 
-            // Récupérer l'ID de l'utilisateur à partir de son e-mail
             $stmt_user_id = $conn->prepare("SELECT user_id FROM user WHERE email = ?");
             $stmt_user_id->bind_param("s", $email);
             $stmt_user_id->execute();
@@ -39,12 +38,10 @@ if (isset($_GET['id'])) {
             $stmt_user_id->fetch();
             $stmt_user_id->close();
 
-            // Insérez le commentaire dans la base de données
             $stmt_insert_comment = $conn->prepare("INSERT INTO comments (product_id, user_id, content) VALUES (?, ?, ?)");
             $stmt_insert_comment->bind_param("iis", $product_id, $user_id, $comment_content);
             
             if ($stmt_insert_comment->execute()) {
-                // Rafraîchir la page pour afficher le nouveau commentaire
                 header("Location: product_details.php?id=$product_id");
                 exit();
             } else {
@@ -52,7 +49,6 @@ if (isset($_GET['id'])) {
             }
         }
 
-        // Récupérer les commentaires associés au produit depuis la base de données
         $stmt_comments = $conn->prepare("SELECT c.content, u.username FROM comments c JOIN user u ON c.user_id = u.user_id WHERE c.product_id = ?");
         $stmt_comments->bind_param("i", $product_id);
         $stmt_comments->execute();
@@ -71,7 +67,6 @@ if (isset($_GET['id'])) {
     <div class="container">
         <div class="product-details">
             <?php
-            // Récupérer les dimensions de l'image pour redimensionner si nécessaire
             list($width, $height) = getimagesize($product_image);
             $max_width = 500; 
             $new_height = ($max_width / $width) * $height;
@@ -83,7 +78,6 @@ if (isset($_GET['id'])) {
                 <p class="price">$<?php echo $price; ?></p>
                 <h2>Commentaires :</h2>
                 <?php
-                // Afficher les commentaires existants
                 while ($row_comment = $result_comments->fetch_assoc()) {
                     echo '<div class="comment">';
                     echo '<p><strong>' . $row_comment['username'] . '</strong></p>';
@@ -91,12 +85,10 @@ if (isset($_GET['id'])) {
                     echo '</div>';
                 }
                 ?>
-                <!-- Formulaire pour ajouter un commentaire -->
                 <form method="post" action="">
                     <textarea name="comment_content" placeholder="Ajouter un commentaire" required></textarea>
                     <input type="submit" name="submit_comment" value="Commenter">
                 </form>
-                <!-- Lien pour retourner à la page d'accueil -->
                 <a href="home.php">Retourner à la page d'accueil</a>
             </div>
         </div>
