@@ -20,11 +20,11 @@ function displayProducts($conn) {
         echo "<tr><th>user_ID</th><th>Name</th><th>Description</th><th>Price</th><th>Actions</th></tr>";
         while($row = $result->fetch_assoc()) {
             echo "<tr>";
-            echo "<td>".$row['id']."</td>";
-            echo "<td>".$row['name']."</td>";
+            echo "<td>".$row['product_id']."</td>";
+            echo "<td>".$row['product_name']."</td>";
             echo "<td>".$row['description']."</td>";
             echo "<td>".$row['price']."</td>";
-            echo "<td><a href='edit_product.php?id=".$row['id']."'>Edit</a> | <a href='delete_product.php?id=".$row['id']."'>Delete</a></td>";
+            echo "<td><a href='edit_product.php?id=".$row['product_id']."'>Edit</a> | <a href='delete_product.php?id=".$row['product_id']."'>Delete</a></td>";
             echo "</tr>";
         }
         echo "</table>";
@@ -75,13 +75,15 @@ if(isset($_POST['delete_user'])) {
 ?>
 
 <!DOCTYPE html>
+<link rel="stylesheet" href="Front/css/dash_board.css"/>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Admin Dashboard</title>
 </head>
 <body>
-    <h1>Welcome to Admin Dashboard</h1>
+    <h1>Admin Dashboard</h1>
     <p><a href="login.php">Deconnexion</a></p>
 
     <?php
