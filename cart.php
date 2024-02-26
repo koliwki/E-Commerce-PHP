@@ -3,55 +3,50 @@ session_start();
 include_once 'config.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Vérifier si l'action est définie comme "remove_product"
-    if (isset($_POST['action']) && $_POST['action'] == 'remove_product') {
-        // Vérifier si l'identifiant du produit est défini
-        if (isset($_POST['product_id'])) {
-            $product_id = $_POST['product_id'];
+    if (isset($_POST['product_id'])) {
+        $product_id = $_POST['product_id'];
 
-            // Vérifier si l'utilisateur est connecté
-            if (isset($_SESSION['email'])) {
-                // Récupérer l'identifiant de l'utilisateur à partir de la session
-                $email = $_SESSION['email'];
-                $sql_user_id = "SELECT user_id FROM user WHERE email = ?";
-                $stmt_user_id = $conn->prepare($sql_user_id);
+        // Vérifier si l'utilisateur est connecté
+        if (isset($_SESSION['email'])) {
+            // Récupérer l'identifiant de l'utilisateur à partir de la session
+            $email = $_SESSION['email'];
+            $sql_user_id = "SELECT user_id FROM user WHERE email = ?";
+            $stmt_user_id = $conn->prepare($sql_user_id);
 
-                if ($stmt_user_id) {
-                    $stmt_user_id->bind_param("s", $email);
-                    $stmt_user_id->execute();
-                    $stmt_user_id->bind_result($user_id);
-                    $stmt_user_id->fetch();
-                    $stmt_user_id->close();
+            if ($stmt_user_id) {
+                $stmt_user_id->bind_param("s", $email);
+                $stmt_user_id->execute();
+                $stmt_user_id->bind_result($user_id);
+                $stmt_user_id->fetch();
+                $stmt_user_id->close();
 
-                    // Supprimer le produit du panier
-                    $sql_remove_product = "DELETE FROM cart WHERE user_id = ? AND product_id = ?";
-                    $stmt_remove_product = $conn->prepare($sql_remove_product);
+                // Insérer le produit dans la table cart
+                $sql_insert_cart = "INSERT INTO cart (user_id, product_id, quantity, added_date) VALUES (?, ?, 1, NOW())";
+                $stmt_insert_cart = $conn->prepare($sql_insert_cart);
 
-                    if ($stmt_remove_product) {
-                        $stmt_remove_product->bind_param("ii", $user_id, $product_id);
-                        $stmt_remove_product->execute();
-                        $stmt_remove_product->close();
-                        // Réponse pour indiquer que le produit a été supprimé du panier avec succès
-                        echo "Le produit a été supprimé du panier avec succès !";
-                    } else {
-                        // Erreur de préparation de la requête SQL pour supprimer le produit du panier
-                        echo "Erreur de préparation de la requête SQL pour supprimer le produit du panier.";
-                    }
+                if ($stmt_insert_cart) {
+                    $stmt_insert_cart->bind_param("ii", $user_id, $product_id);
+                    $stmt_insert_cart->execute();
+                    $stmt_insert_cart->close();
+                    // Réponse pour indiquer que le produit a été ajouté au panier avec succès
+                    echo "Le produit a été ajouté au panier avec succès !";
                 } else {
-                    // Erreur de préparation de la requête SQL pour récupérer l'identifiant de l'utilisateur
-                    echo "Erreur de préparation de la requête SQL pour récupérer l'identifiant de l'utilisateur.";
+                    // Erreur de préparation de la requête SQL pour insérer le produit dans le panier
+                    echo "Erreur de préparation de la requête SQL.";
                 }
             } else {
-                // Message si l'utilisateur n'est pas connecté
-                echo "Veuillez vous connecter pour supprimer des produits du panier.";
+                // Erreur de préparation de la requête SQL pour récupérer l'identifiant de l'utilisateur
+                echo "Erreur de préparation de la requête SQL.";
             }
         } else {
-            // Message si l'identifiant du produit est manquant
-            echo "Paramètre product_id manquant.";
+            echo "Veuillez vous connecter pour ajouter des produits au panier.";
         }
+    } else {
+        echo "Paramètre product_id manquant.";
     }
 }
 ?>
+
 
 
 
