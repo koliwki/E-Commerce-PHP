@@ -87,7 +87,11 @@ $result = $stmt->get_result();
                 echo '<h3>' . $row['product_name'] . '</h3>';
                 echo '<p>' . $row['description'] . '</p>';
                 echo '<span class="price">$' . $row['price'] . '</span>';
-                echo '<button class="add-to-cart" data-product-id="' . $row['product_id'] . '">Ajouter au panier</button>';
+                // Ajout du formulaire pour ajouter au panier
+                echo '<form method="post" action="home.php">';
+                echo '<input type="hidden" name="product_id" value="' . $row['product_id'] . '">';
+                echo '<input type="submit" class="add-to-cart" value="Ajouter au panier">';
+                echo '</form>';
                 echo '</div>';
                 echo '</div>';
             }
@@ -99,27 +103,47 @@ $result = $stmt->get_result();
         ?>
     </div>
 
-    <script>
-    $(document).ready(function() {
-        // Lorsque le bouton "Ajouter au panier" est cliqué
-        $('.add-to-cart').click(function() {
-            // Récupérer l'identifiant du produit à partir de l'attribut de données
-            var productId = $(this).data('product-id');
-            // Envoyer une requête AJAX pour ajouter le produit au panier
-            $.ajax({
-                url: 'cart.php',
-                type: 'post',
-                data: {
-                    product_id: productId
-                },
-                success: function(response) {
+    <?php
+    // Traitement de l'ajout au panier depuis la page d'accueil
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['product_id'])) {
+        // Vérifier si l'utilisateur est connecté
+        if (isset($_SESSION['email'])) {
+            // Récupérer l'identifiant de l'utilisateur à partir de la session
+            $email = $_SESSION['email'];
+            $sql_user_id = "SELECT user_id FROM user WHERE email = ?";
+            $stmt_user_id = $conn->prepare($sql_user_id);
+
+            if ($stmt_user_id) {
+                $stmt_user_id->bind_param("s", $email);
+                $stmt_user_id->execute();
+                $stmt_user_id->bind_result($user_id);
+                $stmt_user_id->fetch();
+                $stmt_user_id->close();
+
+                // Récupérer l'identifiant du produit à partir des données du formulaire
+                $product_id = $_POST['product_id'];
+
+                // Insérer le produit dans la table cart
+                $sql_insert_cart = "INSERT INTO cart (user_id, product_id, quantity, added_date) VALUES (?, ?, 1, NOW())";
+                $stmt_insert_cart = $conn->prepare($sql_insert_cart);
+
+                if ($stmt_insert_cart) {
+                    $stmt_insert_cart->bind_param("ii", $user_id, $product_id);
+                    $stmt_insert_cart->execute();
+                    $stmt_insert_cart->close();
                     // Afficher une notification pour confirmer que le produit a été ajouté au panier
-                    alert('produit ajouté au panier !');
+                    echo '<script>alert("Produit ajouté au panier !");</script>';
+                } else {
+                    echo "Erreur lors de l'ajout du produit au panier : " . $conn->error;
                 }
-            });
-        });
-    });
-</script>
+            } else {
+                echo "Erreur lors de la récupération de l'identifiant de l'utilisateur : " . $conn->error;
+            }
+        } else {
+            echo "Veuillez vous connecter pour ajouter des produits au panier.";
+        }
+    }
+    ?>
 
 </body>
 

@@ -20,18 +20,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $stmt_user_id->fetch();
                 $stmt_user_id->close();
 
-                // Insérer le produit dans la table cart
-                $sql_insert_cart = "INSERT INTO cart (user_id, product_id, quantity, added_date) VALUES (?, ?, 1, NOW())";
-                $stmt_insert_cart = $conn->prepare($sql_insert_cart);
+                // Supprimer le produit du panier
+                $sql_remove_product = "DELETE FROM cart WHERE user_id = ? AND product_id = ?";
+                $stmt_remove_product = $conn->prepare($sql_remove_product);
 
-                if ($stmt_insert_cart) {
-                    $stmt_insert_cart->bind_param("ii", $user_id, $product_id);
-                    $stmt_insert_cart->execute();
-                    $stmt_insert_cart->close();
-                    // Réponse pour indiquer que le produit a été ajouté au panier avec succès
-                    echo "Le produit a été ajouté au panier avec succès !";
+                if ($stmt_remove_product) {
+                    $stmt_remove_product->bind_param("ii", $user_id, $product_id);
+                    $stmt_remove_product->execute();
+                    $stmt_remove_product->close();
+                    // Réponse pour indiquer que le produit a été supprimé du panier avec succès
+                    echo "Le produit a été supprimé du panier avec succès !";
                 } else {
-                    // Erreur de préparation de la requête SQL pour insérer le produit dans le panier
+                    // Erreur de préparation de la requête SQL pour supprimer le produit du panier
                     echo "Erreur de préparation de la requête SQL.";
                 }
             } else {
@@ -39,13 +39,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo "Erreur de préparation de la requête SQL.";
             }
         } else {
-            echo "Veuillez vous connecter pour ajouter des produits au panier.";
+            echo "Veuillez vous connecter pour supprimer des produits du panier.";
         }
     } else {
         echo "Paramètre product_id manquant.";
     }
 }
 ?>
+
 
 
 
