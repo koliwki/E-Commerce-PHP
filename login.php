@@ -6,6 +6,8 @@ include_once 'config.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email']; 
     $password = $_POST['password'];
+    $_SESSION['user_id'] = $user_id;
+    $_SESSION['username'] = $username;
 
     $stmt = $conn->prepare("SELECT * FROM user WHERE email = ?");
     
