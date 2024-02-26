@@ -156,8 +156,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                 class="submit-button black-bg white-text rounded-button">Valider</button>
                                         </div>
                                         <div class="button-container">
-                                            <button onclick="window.location.href='login.php'"
-                                                class="logout-button black-bg white-text rounded-button">Déconnexion</button>
+                                            <a onclick="window.location.href='login.php'"
+                                                class="logout-button black-bg white-text rounded-button">Déconnexion</a>
                                         </div>
 
                                     </form>
