@@ -69,25 +69,26 @@ $result = $stmt->get_result();
             </select>
             <input type="submit" class="filter" value="Filter">
         </form>
-        </div>  
+    </div>
+    <div class="product-cards">
         <?php
         if ($result->num_rows > 0) {
-            echo '<div class="product-cards">';
             while ($row = $result->fetch_assoc()) {
                 echo '<div class="product-card">';
                 echo '<img src="' . $row['product_image'] . '" alt="' . $row['product_name'] . '">';
                 echo '<div class="product-info">';
+                echo '<a href="product_details.php?id=' . $row['product_id'] . '" class="product-link">';
                 echo '<h3>' . $row['product_name'] . '</h3>';
-                echo '<p>' . $row['description'] . '</p>';
+                echo '</a>';
                 echo '<span class="price">$' . $row['price'] . '</span>';
                 echo '<form method="post" action="home.php">';
                 echo '<input type="hidden" name="product_id" value="' . $row['product_id'] . '">';
-                echo '<input type="submit" class="add-to-cart" value="Ajouter au panier">';
+                echo '<input type="submit" class="add-to-cart" value="Ajouter au panier" onclick="addToCart(this);">';
+
                 echo '</form>';
                 echo '</div>';
                 echo '</div>';
             }
-            echo '</div>';
         } else {
             echo "Aucun produit n'a été trouvé dans cette catégorie.";
         }
@@ -95,22 +96,35 @@ $result = $stmt->get_result();
         ?>
     </div>
 
-    <?php
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['product_id'])) {
-        if (isset($_SESSION['email'])) {
-            $email = $_SESSION['email'];
-            $sql_user_id = "SELECT user_id FROM user WHERE email = ?";
-            $stmt_user_id = $conn->prepare($sql_user_id);
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['product_id'])) {
+    if (isset($_SESSION['email'])) {
+        $email = $_SESSION['email'];
+        $sql_user_id = "SELECT user_id FROM user WHERE email = ?";
+        $stmt_user_id = $conn->prepare($sql_user_id);
 
-            if ($stmt_user_id) {
-                $stmt_user_id->bind_param("s", $email);
-                $stmt_user_id->execute();
-                $stmt_user_id->bind_result($user_id);
-                $stmt_user_id->fetch();
-                $stmt_user_id->close();
+        if ($stmt_user_id) {
+            $stmt_user_id->bind_param("s", $email);
+            $stmt_user_id->execute();
+            $stmt_user_id->bind_result($user_id);
+            $stmt_user_id->fetch();
+            $stmt_user_id->close();
 
-                $product_id = $_POST['product_id'];
+            $product_id = $_POST['product_id'];
 
+            $sql_check_cart = "SELECT * FROM cart WHERE user_id = ? AND product_id = ?";
+            $stmt_check_cart = $conn->prepare($sql_check_cart);
+            $stmt_check_cart->bind_param("ii", $user_id, $product_id);
+            $stmt_check_cart->execute();
+            $result_check_cart = $stmt_check_cart->get_result();
+
+            if ($result_check_cart->num_rows > 0) {
+                $sql_update_cart = "UPDATE cart SET quantity = quantity + 1 WHERE user_id = ? AND product_id = ?";
+                $stmt_update_cart = $conn->prepare($sql_update_cart);
+                $stmt_update_cart->bind_param("ii", $user_id, $product_id);
+                $stmt_update_cart->execute();
+                $stmt_update_cart->close();
+            } else {
                 $sql_insert_cart = "INSERT INTO cart (user_id, product_id, quantity, added_date) VALUES (?, ?, 1, NOW())";
                 $stmt_insert_cart = $conn->prepare($sql_insert_cart);
 
@@ -122,14 +136,16 @@ $result = $stmt->get_result();
                 } else {
                     echo "Erreur lors de l'ajout du produit au panier : " . $conn->error;
                 }
-            } else {
-                echo "Erreur lors de la récupération de l'identifiant de l'utilisateur : " . $conn->error;
             }
         } else {
-            echo "Veuillez vous connecter pour ajouter des produits au panier.";
+            echo "Erreur lors de la récupération de l'identifiant de l'utilisateur : " . $conn->error;
         }
+    } else {
+        echo "Veuillez vous connecter pour ajouter des produits au panier.";
     }
-    ?>
+}
+?>
+
 
 </body>
 
