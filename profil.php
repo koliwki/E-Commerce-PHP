@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-include_once 'config.php'; 
+include_once 'config.php';
 
 if (!isset($_SESSION['email'])) {
     header("Location: login.php");
@@ -16,7 +16,7 @@ $stmt = $conn->prepare($sql);
 if ($stmt) {
     $stmt->bind_param("s", $email);
     $stmt->execute();
-    $stmt->bind_result($username, $phone_number, $firstname, $lastname, $country); 
+    $stmt->bind_result($username, $phone_number, $firstname, $lastname, $country);
     $stmt->fetch();
     $stmt->close();
 }
@@ -74,12 +74,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="Front/css/profil.css">
+    <link rel="stylesheet" href="Front\css\profil.css">
 </head>
+
 <body>
     <div class="page-content page-container" id="page-content">
         <div class="padding">
@@ -90,49 +92,76 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="col-sm-4 bg-c-lite-green user-profile">
                                 <div class="card-block text-center text-white">
                                     <div class="m-b-25">
-                                        <img src="https://img.icons8.com/bubbles/100/000000/user.png" class="img-radius" alt="User-Profile-Image">
+                                        <img src="https://img.icons8.com/bubbles/100/000000/user.png" class="img-radius"
+                                            alt="User-Profile-Image">
                                     </div>
-                                    <h6 class="f-w-600"><?php echo $username; ?></h6>
+                                    <h2 class="f-w-600">
+                                        <?php echo $username; ?>
+                                    </h2>
                                     <i class=" mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16"></i>
                                 </div>
                             </div>
                             <div class="col-sm-8">
                                 <div class="card-block">
-                                    <h6 class="m-b-20 p-b-5 b-b-default f-w-600">Information</h6>
+                                    <h1 class="m-b-20 p-b-5 b-b-default f-w-600">Information</h1>
                                     <form method="post">
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <p class="m-b-10 f-w-600">Votre email :</p>
-                                                <h6 class="text-muted f-w-400"><?php echo $email; ?></h6>
+                                        <div class="column-container">
+                                            <div class="column">
+                                                <div class="info-block black-bg">
+                                                    <p class="m-b-10 f-w-600 white-text">Votre email :</p>
+                                                    <h6 class="text-muted f-w-400">
+                                                        <?php echo $email; ?>
+                                                    </h6>
+                                                </div>
                                             </div>
-                                            <div class="col-sm-6">
-                                                <p class="m-b-10 f-w-600">Phone number</p>
-                                                <input type="text" name="phone_number" value="<?php echo $phone_number; ?>">
+                                            <div class="column">
+                                                <div class="col-sm-6">
+                                                    <div class="info-block black-bg bas">
+                                                        <p class="m-b-10 f-w-600 white-text ajustement">Phone number</p>
+                                                        <input type="text" name="phone_number"
+                                                            value="<?php echo $phone_number; ?>" class="white-text">
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="column">
+                                                <div class="info-block black-bg">
+                                                    <p class="m-b-10 f-w-600 white-text">Firstname</p>
+                                                    <input type="text" name="firstname"
+                                                        value="<?php echo $firstname; ?>" class="white-text">
+                                                </div>
+                                            </div>
+                                            <div class="column">
+                                                <div class="info-block black-bg">
+                                                    <p class="m-b-10 f-w-600 white-text">Lastname</p>
+                                                    <input type="text" name="lastname" value="<?php echo $lastname; ?>"
+                                                        class="white-text">
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-6">
-                                                <p class="m-b-10 f-w-600">Firstname</p>
-                                                <input type="text" name="firstname" value="<?php echo $firstname; ?>">
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <p class="m-b-10 f-w-600">Lastname</p>
-                                                <input type="text" name="lastname" value="<?php echo $lastname; ?>">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <p class="m-b-10 f-w-600">Country</p>
-                                                <input type="text" name="country" value="<?php echo $country; ?>">
+                                                <div class="info-block black-bg">
+                                                    <p class="m-b-10 f-w-600 white-text">Country</p>
+                                                    <input type="text" name="country" value="<?php echo $country; ?>"
+                                                        class="white-text">
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="button-container">
-                                            <button type="submit" class="submit-button">Valider</button>
-                                        </div>                                 
-                                      </form>
-                                    <div class="button-container">
-                                        <a href="login.php" class="logout-button">Déconnexion</a>
-                                    </div>
+                                            <button type="submit"
+                                                class="submit-button black-bg white-text rounded-button">Valider</button>
+                                        </div>
+                                        <div class="button-container">
+                                            <button onclick="window.location.href='login.php'"
+                                                class="logout-button black-bg white-text rounded-button">Déconnexion</button>
+                                        </div>
+
+                                    </form>
+
                                 </div>
                             </div>
                         </div>
@@ -142,4 +171,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 </body>
+
 </html>
