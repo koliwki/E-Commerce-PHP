@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Vérifier si l'utilisateur est connecté en tant qu'admin
 if (!isset($_SESSION['admin_email'])) {
     header("Location: login.php");
     exit();
@@ -9,7 +8,6 @@ if (!isset($_SESSION['admin_email'])) {
 
 include_once 'config.php';
 
-// Fonction pour afficher les produits
 function displayProducts($conn) {
     $sql = "SELECT * FROM product";
     $result = $conn->query($sql);
@@ -33,7 +31,6 @@ function displayProducts($conn) {
     }
 }
 
-// Fonction pour afficher les utilisateurs
 function displayUsers($conn) {
     $sql = "SELECT * FROM user";
     $result = $conn->query($sql);
@@ -61,7 +58,6 @@ function displayUsers($conn) {
     }
 }
 
-// Traitement de la suppression d'utilisateur
 if(isset($_POST['delete_user'])) {
     $user_id = $_POST['delete_user_id'];
     $delete_sql = "DELETE FROM user WHERE user_id = $user_id";
@@ -87,10 +83,8 @@ if(isset($_POST['delete_user'])) {
     <p><a href="login.php">Deconnexion</a></p>
 
     <?php
-    // Afficher les produits
     displayProducts($conn);
 
-    // Afficher les utilisateurs
     displayUsers($conn);
     ?>
 

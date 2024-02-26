@@ -1,15 +1,13 @@
 <?php
-session_start(); // Démarre la session PHP
+session_start(); 
 
 include_once 'config.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Récupérer les données du formulaire
     $email = $_POST['signup-email'];
     $password = $_POST['signup-password'];
     $username = $_POST['signup-username']; 
 
-    // Insérer les données dans la base de données
     $sql = "INSERT INTO user (username, email, password) VALUES ('$username', '$email', '$password')";
     if ($conn->query($sql) === TRUE) {
         $_SESSION['inscription_reussie'] = true;
@@ -78,7 +76,7 @@ $conn->close();
             <input name="signup-password-confirm" id="signup-password-confirm" type="password" required>
           </div>
           <div class="input-block">
-            <label>Username</label> <!-- Ajout du champ username -->
+            <label>Username</label> 
             <input name="signup-username" id="signup-username" type="text" required>
           </div>
         </fieldset>

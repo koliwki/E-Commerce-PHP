@@ -2,23 +2,19 @@
 session_start();
 include_once 'config.php';
 
-// Traitement du formulaire d'ajout de produit
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_product'])) {
-    // Récupérer les données du formulaire
     $product_name = $_POST['product_name'];
     $description = $_POST['description'];
     $price = $_POST['price'];
     $category = $_POST['category'];
-    $product_image_link = $_POST['product_image_link']; // Nouveau champ pour le lien de l'image
+    $product_image_link = $_POST['product_image_link']; 
 
-    // Insérer le nouveau produit dans la base de données avec le lien de l'image
     $sql = "INSERT INTO product (product_name, description, price, category, product_image) VALUES (?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
     if ($stmt) {
         $stmt->bind_param("ssdss", $product_name, $description, $price, $category, $product_image_link);
         $stmt->execute();
         $stmt->close();
-        // Rediriger vers la page d'accueil après l'ajout du produit
         header("Location: product.php");
         exit();
     } else {
@@ -26,7 +22,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_product'])) {
     }
 }
 
-// Récupérer les produits existants depuis la base de données
 $sql_products = "SELECT * FROM product";
 $result_products = $conn->query($sql_products);
 $products = [];
@@ -63,8 +58,8 @@ if ($result_products->num_rows > 0) {
             <option value="nourriture">Nourriture</option>
             <option value="autres">Autres</option>
         </select><br>
-        <label for="product_image_link">Product Image Link:</label><br> <!-- Champ pour le lien de l'image -->
-        <input type="url" id="product_image_link" name="product_image_link" required><br> <!-- Champs pour le lien de l'image -->
+        <label for="product_image_link">Product Image Link:</label><br>
+        <input type="url" id="product_image_link" name="product_image_link" required><br> 
         <input type="submit" name="add_product" value="Add Product">
     </form>
 

@@ -1,5 +1,5 @@
 <?php
-session_start(); // Démarre la session PHP
+session_start(); 
 
 include_once 'config.php';
 
@@ -18,12 +18,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $user = $result->fetch_assoc();
             if ($user['password'] == $password) {
                 if ($user['username'] == "admin") {
-                    $_SESSION['admin_email'] = $email; // Stocke l'e-mail de l'admin dans la session
-                    header("Location: admin_dashboard.php"); // Redirige vers le tableau de bord admin
+                    $_SESSION['admin_email'] = $email; 
+                    header("Location: admin_dashboard.php");
                     exit();
                 } else {
-                    $_SESSION['email'] = $email; // Stocke l'e-mail de l'utilisateur dans la session
-                    header("Location: home.php"); // Redirige vers la page d'accueil
+                    $_SESSION['email'] = $email;
+                    header("Location: home.php");
                     exit();
                 }
             } else {
@@ -33,9 +33,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "Cette adresse mail n'existe pas, veuillez vous enregistrer dans SIGN UP";
         }
         
-        $stmt->close(); // Fermeture de la requête préparée
+        $stmt->close();
     } else {
-        // Gestion de l'erreur si la préparation de la requête a échoué
         echo "Erreur lors de la préparation de la requête : " . $conn->error;
     }
 }
@@ -65,7 +64,7 @@ $conn->close();
           <legend>Please, enter your email and password for login.</legend>
           <div class="input-block">
             <label>Email</label> 
-            <input name="email" id="login-email" type="email" required> <!-- Changement ici pour id="login-email" -->
+            <input name="email" id="login-email" type="email" required>
           </div>
           <div class="input-block">
             <label>Password</label>

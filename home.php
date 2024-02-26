@@ -3,10 +3,8 @@ session_start();
 include_once 'config.php';
 
 if (isset($_SESSION['email'])) {
-    // Récupérer l'e-mail associé à l'utilisateur connecté
     $email = $_SESSION['email'];
 
-    // Préparer la requête SQL pour récupérer le nom d'utilisateur associé à l'adresse e-mail
     $sql = "SELECT username FROM user WHERE email = ?";
     $stmt = $conn->prepare($sql);
 
@@ -19,10 +17,8 @@ if (isset($_SESSION['email'])) {
     }
 }
 
-// Récupérer la catégorie sélectionnée (par défaut, 'sport' si aucune catégorie n'est sélectionnée)
 $category = isset($_GET['category']) ? $_GET['category'] : 'sport';
 
-// Récupérer les produits en fonction de la catégorie sélectionnée
 $sql = "SELECT * FROM product WHERE category = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $category);
@@ -64,7 +60,6 @@ $result = $stmt->get_result();
         </ul>
     </nav>
     <div class="product-cards">
-        <!-- Ajoutez ce formulaire pour permettre aux utilisateurs de choisir la catégorie -->
         <form method="get" action="home.php">
             <label for="category">Choose a category:</label>
             <select id="category" name="category">
@@ -74,20 +69,17 @@ $result = $stmt->get_result();
             </select>
             <input type="submit" value="Filter">
         </form>
-
+        </div>  
         <?php
-        // Afficher les produits correspondants à la catégorie sélectionnée
         if ($result->num_rows > 0) {
             echo '<div class="product-cards">';
             while ($row = $result->fetch_assoc()) {
-                // Afficher chaque produit
                 echo '<div class="product-card">';
                 echo '<img src="' . $row['product_image'] . '" alt="' . $row['product_name'] . '">';
                 echo '<div class="product-info">';
                 echo '<h3>' . $row['product_name'] . '</h3>';
                 echo '<p>' . $row['description'] . '</p>';
                 echo '<span class="price">$' . $row['price'] . '</span>';
-                // Ajout du formulaire pour ajouter au panier
                 echo '<form method="post" action="home.php">';
                 echo '<input type="hidden" name="product_id" value="' . $row['product_id'] . '">';
                 echo '<input type="submit" class="add-to-cart" value="Ajouter au panier">';
@@ -104,11 +96,8 @@ $result = $stmt->get_result();
     </div>
 
     <?php
-    // Traitement de l'ajout au panier depuis la page d'accueil
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['product_id'])) {
-        // Vérifier si l'utilisateur est connecté
         if (isset($_SESSION['email'])) {
-            // Récupérer l'identifiant de l'utilisateur à partir de la session
             $email = $_SESSION['email'];
             $sql_user_id = "SELECT user_id FROM user WHERE email = ?";
             $stmt_user_id = $conn->prepare($sql_user_id);
@@ -120,10 +109,8 @@ $result = $stmt->get_result();
                 $stmt_user_id->fetch();
                 $stmt_user_id->close();
 
-                // Récupérer l'identifiant du produit à partir des données du formulaire
                 $product_id = $_POST['product_id'];
 
-                // Insérer le produit dans la table cart
                 $sql_insert_cart = "INSERT INTO cart (user_id, product_id, quantity, added_date) VALUES (?, ?, 1, NOW())";
                 $stmt_insert_cart = $conn->prepare($sql_insert_cart);
 
@@ -131,7 +118,6 @@ $result = $stmt->get_result();
                     $stmt_insert_cart->bind_param("ii", $user_id, $product_id);
                     $stmt_insert_cart->execute();
                     $stmt_insert_cart->close();
-                    // Afficher une notification pour confirmer que le produit a été ajouté au panier
                     echo '<script>alert("Produit ajouté au panier !");</script>';
                 } else {
                     echo "Erreur lors de l'ajout du produit au panier : " . $conn->error;

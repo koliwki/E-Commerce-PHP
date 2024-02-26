@@ -3,7 +3,6 @@ session_start();
 
 include_once 'config.php'; 
 
-// Vérifiez si l'utilisateur est connecté
 if (!isset($_SESSION['email'])) {
     header("Location: login.php");
     exit();

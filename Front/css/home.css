@@ -1,24 +1,29 @@
 *{
     margin: 0;
     padding: 0;
-    color: #fdfdfd;
+    /* color: #fdfdfd; */
     font-family: sans-serif;
     letter-spacing: 1px;
     font-weight: 300;
  }
  body{
     overflow-x: hidden;
+    color :#141313;
  }
- nav{
+nav {
     height: 4.5rem;
     width: 100vw;
     background-color: #131418;
+    color: #ffffff; /* Change this line to set the text color to white */
     box-shadow: 0 3px 20px rgba(0, 0, 0, 0.2);
     display: flex;
     position: relative;
     z-index: 10;
+}
+
+ .product-cards{
+   color :#141313;
  }
- 
  /*Styling logo*/
  .logo{
     padding:1vh 1vw;
@@ -42,6 +47,7 @@
  .nav-links li a{
     text-decoration: none;
     margin: 0 0.7vw;
+    color:#fff;
  }
  .nav-links li a:hover {
     color: #61DAFB;
@@ -60,7 +66,6 @@
    margin-top: 20px;
    margin-bottom: 50px;
 }
-
 
 .product-card {
    margin: 10px;
