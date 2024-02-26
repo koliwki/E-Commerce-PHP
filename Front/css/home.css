@@ -1,26 +1,19 @@
-*{
-    margin: 0;
-    padding: 0;
-    /* color: #fdfdfd; */
-    font-family: sans-serif;
-    letter-spacing: 1px;
-    font-weight: 300;
- }
- body{
-    overflow-x: hidden;
-    color :#141313;
- }
+body {
+	font-family: 'Poppins', sans-serif;
+   overflow-x: hidden;
+   margin: 0;
+   padding: 0;
+}
 nav {
     height: 4.5rem;
     width: 100vw;
-    background-color: #131418;
+    background-color: #1f2029;
     color: #ffffff; /* Change this line to set the text color to white */
     box-shadow: 0 3px 20px rgba(0, 0, 0, 0.2);
     display: flex;
     position: relative;
     z-index: 10;
 }
-
  .product-cards{
    color :#141313;
  }
@@ -100,18 +93,44 @@ nav {
 }
 
 .product-info button {
-   background-color: #007bff;
-   color: #fff;
+   padding: 10px 20px;
    border: none;
-   padding: 8px 16px;
    border-radius: 5px;
    cursor: pointer;
+   text-decoration: none;
+   color: ghostwhite;
+   background-color: #302b63;
+}
+.add-to-cart {
+   padding: 10px 20px;
+   border: none;
+   border-radius: 5px;
+   cursor: pointer;
+   text-decoration: none;
+   color: ghostwhite;
+   background-color: #302b63;
+   display: inline-block;
+   margin-top: 10px;
 }
 
-.product-info button:hover {
-   background-color: #0056b3;
+.add-to-cart:hover {
+   background-color: #544f88;
+}
+.filter {
+   padding:5px 20px;
+   border: none;
+   border-radius: 5px;
+   cursor: pointer;
+   text-decoration: none;
+   color: ghostwhite;
+   background-color: #302b63;
+   display: inline-block;
+   margin-top: 10px;
 }
 
+.filter:hover {
+   background-color: #544f88;
+}
  /*Styling Buttons*/
  .login-button{
     background-color: transparent;

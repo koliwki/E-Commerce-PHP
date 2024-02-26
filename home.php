@@ -67,7 +67,7 @@ $result = $stmt->get_result();
                 <option value="nourriture">Nourriture</option>
                 <option value="autres">Autres</option>
             </select>
-            <input type="submit" value="Filter">
+            <input type="submit" class="filter" value="Filter">
         </form>
         </div>  
         <?php
