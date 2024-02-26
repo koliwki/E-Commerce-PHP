@@ -62,6 +62,7 @@ if ($result_products->num_rows > 0) {
         <input type="url" id="product_image_link" name="product_image_link" required><br> 
         <input type="submit" name="add_product" value="Add Product">
     </form>
+    <a href="home.php">Retourner a la page d'accueil</a>
 
     <h1>Existing Products</h1>
     <table>
