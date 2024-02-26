@@ -75,3 +75,7 @@ body {
 .proceed-to-payment-btn {
     background-color: #28a745;
 }
+.item-details img {
+    max-width: 100%; 
+    height: auto; 
+}

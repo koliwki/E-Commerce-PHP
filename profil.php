@@ -129,7 +129,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         </div>
                                         <div class="button-container">
                                             <button type="submit" class="submit-button">Valider</button>
-                                        </div>                                    </form>
+                                        </div>                                 
+                                      </form>
+                                    <div class="button-container">
+                                        <a href="login.php" class="logout-button">Déconnexion</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -140,4 +144,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 </body>
 </html>
-
