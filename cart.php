@@ -25,7 +25,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $stmt_remove_product->bind_param("ii", $user_id, $product_id);
                     $stmt_remove_product->execute();
                     $stmt_remove_product->close();
-                    echo "Le produit a été supprimé du panier avec succès !";
                 } else {
                     echo "Erreur de préparation de la requête SQL.";
                 }
@@ -89,7 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             echo '<form method="post">';
                             echo '<input type="hidden" name="action" value="remove_product">';
                             echo '<input type="hidden" name="product_id" value="' . $row['product_id'] . '">';
-                            echo '<button type="submit" name="remove_product">Supprimer</button>';
+                            echo '<button class="btn" name="remove_product">Supprimer</button>';
                             echo '</form>';
                             echo '</div>';
                             echo '</div>';
@@ -131,8 +130,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
 
         <div class="buttons">
-            <a href="home.php" class="continue-shopping-btn">Continuer vos achats</a>
-            <a href="paiment.php" class="proceed-to-payment-btn">Procéder au paiement</a>
+            <a href="home.php" class="btn">Continuer vos achats</a>
+            <a href="paiment.php" class="btn">Procéder au paiement</a>
         </div>
     </div>
 </body>

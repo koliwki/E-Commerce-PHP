@@ -1,10 +1,10 @@
 body {
-    font-family: Arial, sans-serif;
+	font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f2f2f2;
+	background-color: #1f2029;
 }
-
+    
 .container {
     max-width: 800px;
     margin: 50px auto;
@@ -15,6 +15,7 @@ body {
 }
 
 .title {
+    font-family: 'Poppins', sans-serif;
     text-align: center;
 }
 
@@ -58,23 +59,16 @@ body {
     justify-content: space-between;
 }
 
-.continue-shopping-btn,
-.proceed-to-payment-btn {
+.btn {
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     text-decoration: none;
-    color: #fff;
+    color: ghostwhite;
+    background-color: #302b63;
 }
 
-.continue-shopping-btn {
-    background-color: #007bff;
-}
-
-.proceed-to-payment-btn {
-    background-color: #28a745;
-}
 .item-details img {
     max-width: 100%; 
     height: auto; 
