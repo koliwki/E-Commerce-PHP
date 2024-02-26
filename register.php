@@ -6,20 +6,42 @@ include_once 'config.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['signup-email'];
     $password = $_POST['signup-password'];
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT); 
     $username = $_POST['signup-username']; 
 
-    $sql = "INSERT INTO user (username, email, password) VALUES ('$username', '$email', '$password')";
-    if ($conn->query($sql) === TRUE) {
-        $_SESSION['inscription_reussie'] = true;
-        header("Location: login.php");
-        exit(); 
+    $stmt = $conn->prepare("SELECT * FROM user WHERE email = ? OR username = ?");
+    if ($stmt) {
+        $stmt->bind_param("ss", $email, $username); 
+        $stmt->execute(); 
+        $result = $stmt->get_result();
+        
+        if ($result->num_rows > 0) {
+            echo "Cet email ou ce nom d'utilisateur est déjà utilisé. Veuillez en choisir un autre.";
+        } else {
+            $stmt = $conn->prepare("INSERT INTO user (username, email, password) VALUES (?, ?, ?)");
+            if ($stmt) {
+                $stmt->bind_param("sss", $username, $email, $hashedPassword);
+                if ($stmt->execute()) {
+                    $_SESSION['inscription_reussie'] = true;
+                    header("Location: login.php");
+                    exit();
+                } else {
+                    echo "Erreur lors de l'inscription: " . $stmt->error;
+                }
+            } else {
+                echo "Erreur lors de la préparation de la requête : " . $conn->error;
+            }
+        }
+        
+        $stmt->close();
     } else {
-        echo "Erreur lors de l'inscription: " . $conn->error;
+        echo "Erreur lors de la préparation de la requête : " . $conn->error;
     }
 }
 
 $conn->close();
 ?>
+
 
 
 <!DOCTYPE html>

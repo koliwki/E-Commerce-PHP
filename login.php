@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
 
     $stmt = $conn->prepare("SELECT * FROM user WHERE email = ?");
-
+    
     if ($stmt) {
         $stmt->bind_param("s", $email); 
         $stmt->execute(); 
@@ -16,7 +16,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         if ($result->num_rows > 0) {
             $user = $result->fetch_assoc();
-            if ($user['password'] == $password) {
+            $hashedPassword = $user['password'];
+            if (password_verify($password, $hashedPassword)) {
                 if ($user['username'] == "admin") {
                     $_SESSION['admin_email'] = $email; 
                     header("Location: admin_dashboard.php");
